@@ -37,5 +37,14 @@ int main() {
         getchar(); // Limpa o '\n' deixado pelo scanf
     }
 
+    // Exibição dos dados
+    printf("\n=== Informações dos territórios Cadastrados ===\n");
+    for(int i = 0; i < 5; i++) {
+        printf("\nTerritório %d\n", i + 1); 
+        printf("Nome: %s\n", territorios[i].nome);
+        printf("Cor do exército: %s\n", territorios[i].cor);
+        printf("Número de tropas: %d\n", territorios[i].tropas);
+    }
+
     return 0;
 }
