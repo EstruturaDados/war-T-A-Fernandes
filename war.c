@@ -12,5 +12,9 @@ typedef struct {
 
 
 int main() {
+
+    // Vetor que ira armazenar 5 territórios
+    Territorio territorios[5];
+
     return 0;
 }
