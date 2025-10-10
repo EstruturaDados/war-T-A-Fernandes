@@ -50,6 +50,39 @@ void exibirMapa(Territorio* mapa, int qtd){
     }
 }
 
+// ==============================
+// Função: atacar
+// imula um ataque entre dois território
+// ==============================
+void atacar(Territorio* atacante, Territorio* defensor) {
+    if (strcmp(atacante->cor, defensor->cor) == 0) {
+        printf("\n⚠️  Você não pode atacar um território da sua propria cor!\n");
+        return;
+    }
+
+    if (atacante->tropas < 2){
+        printf("\n⚠️  O território atacante precisa ter pelo menos 2 tropas!\n");
+        return;
+    }
+
+    printf("\n🎲 Rolando os dados...\n");
+    int dadoAtacante = rand() % 6 + 1;
+    int dadoDefensor = rand() % 6 + 1;
+
+    printf("  Dado do atacante: %d\n", dadoAtacante);
+    printf("  Dado defensor: %d\n", dadoDefensor);
+
+    if (dadoAtacante > dadoDefensor) {
+        printf("\n🔥 O atacante venceu a batalha!\n");
+        strcpy(defensor->cor, atacante->cor);
+        defensor->tropas = atacante->tropas / 2; // Metade das tropas passam
+        atacante->tropas /=2;                    // Metade permanecem
+    } else {
+        printf("\n🛡️ O defensor resistiu ao ataque.\n");
+        atacante->tropas -= 1; // atacante perde uma tropa
+    }
+}
+
 
 
 
