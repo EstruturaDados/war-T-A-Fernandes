@@ -34,6 +34,25 @@ void cadastrarTerritorios(Territorio* mapa, int qtd){
     }
 }
 
+// ==============================
+// Função: exibirMapa
+// Exibe o estado atual do território
+// ==============================
+void exibirMapa(Territorio* mapa, int qtd){
+    printf("\n==============================\n");
+    printf("     ESTADO ATUAL DO MAPA\n");
+    printf("==============================\n");
+    for (int i = 0; i < qtd; i++) {
+        printf("\nTerritório %d:\n", i + 1);
+        printf("   Nome: %s\n", mapa[i].nome);
+        printf("   Cor: %s\n", mapa[i].cor);
+        printf("   Tropas: %s\n", mapa[i].tropas);
+    }
+}
+
+
+
+
 int main() {
 
     // Vetor que ira armazenar 5 territórios
