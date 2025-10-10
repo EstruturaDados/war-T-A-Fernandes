@@ -18,7 +18,7 @@ typedef struct {
 // ==============================
 void cadastrarTerritorios(Territorio* mapa, int qtd){
     for (int i = 0; i < qtd; i++){
-        printf("\n--- Cadastro de Território %d---\n",i + i);
+        printf("\n--- Cadastro de Território %d ---\n", i + 1);
 
         printf("Nome do Território: ");
         fgets(mapa[i].nome, sizeof(mapa[i].nome), stdin);
@@ -40,13 +40,13 @@ void cadastrarTerritorios(Territorio* mapa, int qtd){
 // ==============================
 void exibirMapa(Territorio* mapa, int qtd){
     printf("\n==============================\n");
-    printf("     ESTADO ATUAL DO MAPA\n");
+    printf("     ESTADO ATUAL DO MAPA 🗺️\n");
     printf("==============================\n");
     for (int i = 0; i < qtd; i++) {
         printf("\nTerritório %d:\n", i + 1);
         printf("   Nome: %s\n", mapa[i].nome);
         printf("   Cor: %s\n", mapa[i].cor);
-        printf("   Tropas: %s\n", mapa[i].tropas);
+        printf("   Tropas: %d\n", mapa[i].tropas);
     }
 }
 
@@ -56,11 +56,11 @@ void exibirMapa(Territorio* mapa, int qtd){
 // ==============================
 void atacar(Territorio* atacante, Territorio* defensor) {
     if (strcmp(atacante->cor, defensor->cor) == 0) {
-        printf("\n⚠️  Você não pode atacar um território da sua propria cor!\n");
+        printf("\n⚠️  Você não pode atacar um território da sua própria cor!\n");
         return;
     }
 
-    if (atacante->tropas < 2){
+    if (atacante->tropas < 2) {
         printf("\n⚠️  O território atacante precisa ter pelo menos 2 tropas!\n");
         return;
     }
@@ -70,18 +70,26 @@ void atacar(Territorio* atacante, Territorio* defensor) {
     int dadoDefensor = rand() % 6 + 1;
 
     printf("  Dado do atacante: %d\n", dadoAtacante);
-    printf("  Dado defensor: %d\n", dadoDefensor);
+    printf("  Dado do defensor: %d\n", dadoDefensor);
 
     if (dadoAtacante > dadoDefensor) {
         printf("\n🔥 O atacante venceu a batalha!\n");
+
+        // Transferência de cor
         strcpy(defensor->cor, atacante->cor);
-        defensor->tropas = atacante->tropas / 2; // Metade das tropas passam
-        atacante->tropas /=2;                    // Metade permanecem
+
+        // Calcula metade das tropas usadas no ataque
+        int tropasTransferidas = atacante->tropas / 2;
+
+        // Atualiza tropas nos territórios
+        defensor->tropas = tropasTransferidas;
+        atacante->tropas -= tropasTransferidas;
     } else {
-        printf("\n🛡️ O defensor resistiu ao ataque.\n");
-        atacante->tropas -= 1; // atacante perde uma tropa
+        printf("\n💪 O defensor resistiu ao ataque.\n");
+        atacante->tropas -= 1;
     }
 }
+
 
 // ==============================
 // Função: liberarMemoria
@@ -125,11 +133,11 @@ int main() {
         if (opcao == 1) {
             int iAtacante, iDefensor;
 
-            printf("\nEscolha o número do território atacante: ");
+            printf("\nEscolha o número do território atacante 🗡️: ");
             scanf("%d", &iAtacante);
             getchar();
 
-            printf("Escolha o número do território defensor: ");
+            printf("Escolha o número do território defensor 🛡️: ");
             scanf("%d", &iDefensor);
             getchar();
 
