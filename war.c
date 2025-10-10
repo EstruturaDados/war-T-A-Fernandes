@@ -3,14 +3,36 @@
 #include <stdlib.h> // Biblioteca padão: Funções de alocação de memória
 #include <time.h> // Biblioteca de tempo: Funções para data, hora e inicialização de aleatóriedade (srand)
 
-// Definição da struct Território
-// Cada território tem um nome, a cor do exército e a quantidade de tropas
+// ==============================
+// Estrutura do Território
+// ==============================
 typedef struct {
     char nome[30];
     char cor[10];
     int tropas;
 } Territorio;
 
+// ==============================
+// Função: cadastrarTerritorios
+// Cadastra os territórios dinamicamente
+// ==============================
+void cadastrarTerritorios(Territorio* mapa, int qtd){
+    for (int i = 0; i < qtd; i++){
+        printf("\n--- Cadastro de Território %d---\n",i + i);
+
+        printf("Nome do Território: ");
+        fgets(mapa[i].nome, sizeof(mapa[i].nome), stdin);
+        mapa[i].nome[strcspn(mapa[i].nome, "\n")] = 0;
+
+        printf("Cor do exército: ");
+        fgets(mapa[i].cor, sizeof(mapa[i].cor), stdin);
+        mapa[i].cor[strcspn(mapa[i].cor, "\n")] = 0;
+
+        printf("Número de Tropas: ");
+        scanf("%d", &mapa[i].tropas);
+        getchar();
+    }
+}
 
 int main() {
 
