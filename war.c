@@ -1,5 +1,7 @@
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h> // Biblioteca padão: Funções de alocação de memória
+#include <time.h> // Biblioteca de tempo: Funções para data, hora e inicialização de aleatóriedade (srand)
 
 // Definição da struct Território
 // Cada território tem um nome, a cor do exército e a quantidade de tropas
