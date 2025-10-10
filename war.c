@@ -83,6 +83,13 @@ void atacar(Territorio* atacante, Territorio* defensor) {
     }
 }
 
+// ==============================
+// Função: liberarMemoria
+// Libera os espaço alocado dinamicamente
+// ==============================
+void liberarMemoria(Territorio* mapa){
+    free(mapa);
+}
 
 
 
