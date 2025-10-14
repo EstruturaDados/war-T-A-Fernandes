@@ -55,10 +55,21 @@ O usuário digita o nome do território, a cor do exército dominante e o númer
 - Fase de ataque com:
   - Escolha de atacante e defensor
   - Dados de ataque/defesa
-  - Lógica:
-    - Se atacante vence → defensor perde 1 tropa
-    - Se defensor perde todas → território é conquistado
-    - Empates favorecem o atacante
+  - Lógica de Combate entre Territórios
+      
+      1. Verificações iniciais
+            Não é possível atacar território da mesma cor.
+            Atacante precisa ter pelo menos 2 tropas.
+
+      2. Rolagem de dados
+            Atacante e defensor rolam um dado de 6 lados.
+            Empates favorecem o atacante.
+
+      3. Resultados
+      Vitória do atacante / empate:
+            Se defensor tinha 1 tropa → conquista total: 1 tropa do atacante vai para o novo território e a cor muda.
+            Se defensor ainda tem tropas → defensor perde 1 tropa, atacante mantém as suas.
+            Defensor vence: atacante perde 1 tropa.
 
 ### 💡 Conceitos abordados
 
