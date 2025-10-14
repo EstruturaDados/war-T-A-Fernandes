@@ -159,3 +159,51 @@ int atacar(Territorio* atacante, Territorio* defensor) {
         return 0;
     }
 }
+
+// ==============================
+// Função: verificarMissao
+// Avalia se a missão foi cumprida.
+// ==============================
+int verificarMissao(int missaoEscolhida, Territorio* mapa, int qtd, const char* corEscolhida) {
+    int count = 0;
+    switch (missaoEscolhida) {
+        case 0:
+            for (int i = 0; i < qtd; i++)
+                if (strcmp(mapa[i].cor, corEscolhida) == 0 && mapa[i].tropasOriginais > 3)
+                    return 1;
+            break;
+        case 1:
+            for (int i = 0; i < qtd; i++)
+                if (strcmp(mapa[i].cor, corEscolhida) == 0 &&
+                    strcmp(mapa[i].corOriginal, corEscolhida) != 0)
+                    return 1;
+            break;
+        case 2:
+            for (int i = 0; i < qtd; i++)
+                if (strcmp(mapa[i].cor, corEscolhida) == 0) count++;
+            if (count > qtd / 2) return 1;
+            break;
+        case 3: {
+            int coresDiferentes = 0;
+            char cores[5][20];
+            for (int i = 0; i < qtd; i++) {
+                if (strcmp(mapa[i].cor, corEscolhida) == 0) continue;
+                int j;
+                for (j = 0; j < coresDiferentes; j++)
+                    if (strcmp(mapa[i].cor, cores[j]) == 0) break;
+                if (j == coresDiferentes) {
+                    strcpy(cores[coresDiferentes], mapa[i].cor);
+                    coresDiferentes++;
+                }
+            }
+            if (coresDiferentes >= 1) return 1;
+            break;
+        }
+        case 4:
+            for (int i = 0; i < qtd; i++)
+                if (strcmp(mapa[i].cor, corEscolhida) == 0 && mapa[i].tropas > 0)
+                    return 1;
+            break;
+    }
+    return 0;
+}
