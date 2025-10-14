@@ -114,6 +114,9 @@ Exibição do resultado da batalha, dados sorteados e mudanças no mapa.
   2. Verificar Missão
   3. Sair
 - Verificação de vitória da missão
+- Empréstimo de Tropas 
+      O sistema de empréstimo de tropas permite que territórios aliados (da mesma cor) colaborem estrategicamente quando estão com apenas 1 tropa. Se um território tiver apenas 1 tropa e não puder atacar, ele pode receber temporariamente 1 tropa de outro território da mesma cor.
+      Essa tropa emprestada viabiliza o ataque. Se o ataque for bem-sucedido, a tropa retorna ao território de origem. Se o ataque falhar, o território que recebeu a tropa pode ser conquistado por estar vulnerável. Essa mecânica evita que o jogador fique travado quanto possui mais de um territorio com apenas uma tropa e incentiva decisões táticas entre seus próprios territórios.
 
 ### 💡 Conceitos abordados
 
