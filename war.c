@@ -70,3 +70,53 @@ void exibirMapa(Territorio* mapa, int qtd) {
     }
     printf("=================================================================\n");
 }
+
+// ==============================
+// Função: emprestarTropas
+// Permite empréstimo de tropas entre territórios da mesma cor.
+// ==============================
+EmprestimoTemporario emprestarTropas(Territorio* mapa, int qtd, const char* corJogador) {
+    EmprestimoTemporario emp = { -1, -1, 0, 0 };
+
+    int origem = -1, destino = -1;
+    for (int i = 0; i < qtd; i++) {
+        if (strcmp(mapa[i].cor, corJogador) == 0 && mapa[i].tropas > 1)
+            origem = i;
+        else if (strcmp(mapa[i].cor, corJogador) == 0 && mapa[i].tropas == 1)
+            destino = i;
+    }
+
+    if (origem != -1 && destino != -1) {
+        mapa[origem].tropas--;
+        mapa[destino].tropas++;
+        emp.origem = origem;
+        emp.destino = destino;
+        emp.tropasEmprestadas = 1;
+        emp.ativo = 1;
+        printf("✅ Tropas emprestadas de %s para %s\n", mapa[origem].nome, mapa[destino].nome);
+    } else {
+        printf("⚠️ Não há territórios elegíveis para empréstimo.\n");
+    }
+
+    return emp;
+}
+
+// ==============================
+// Função: resolverEmprestimo
+// Devolve as tropas após o ataque.
+// ==============================
+void resolverEmprestimo(Territorio* mapa, EmprestimoTemporario* emp, int atacanteVenceu) {
+    if (!emp->ativo) return;
+
+    if (atacanteVenceu) {
+        mapa[emp->destino].tropas -= emp->tropasEmprestadas;
+        mapa[emp->origem].tropas += emp->tropasEmprestadas;
+        printf("🔁 Tropas retornaram para %s após vitória.\n", mapa[emp->origem].nome);
+    } else {
+        mapa[emp->destino].tropas -= emp->tropasEmprestadas;
+        if (mapa[emp->destino].tropas <= 0)
+            printf("⚠️ %s ficou vazio e foi conquistado!\n", mapa[emp->destino].nome);
+    }
+
+    emp->ativo = 0;
+}
