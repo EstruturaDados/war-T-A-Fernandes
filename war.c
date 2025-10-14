@@ -207,3 +207,83 @@ int verificarMissao(int missaoEscolhida, Territorio* mapa, int qtd, const char* 
     }
     return 0;
 }
+
+// ==============================
+// Função principal
+// Controla o fluxo do jogo e interações do jogador.
+// ==============================
+int main() {
+    srand(time(NULL));
+
+    int qtd;
+    printf("Quantos territórios deseja cadastrar? ");
+    scanf("%d", &qtd);
+    while (getchar() != '\n');
+
+    Territorio* mapa = malloc(qtd * sizeof(Territorio));
+    cadastrarTerritorios(mapa, qtd);
+
+    Missao missoes[5] = {
+        {"Conquiste pelo menos um território com mais de 3 tropas"},
+        {"Conquiste pelo menos um território do mapa"},
+        {"Ao final de 5 rodadas, tenha mais territórios que qualquer outro jogador"},
+        {"Conquiste territórios de pelo menos duas cores diferentes"},
+        {"Resista a 3 ataques"}
+    };
+
+    const char* corEscolhida = mapa[rand() % qtd].cor;
+    int missaoEscolhida = rand() % 5;
+
+    exibirMapa(mapa, qtd);
+    printf("\n--- Sua missão: exército %s ---\n", corEscolhida);
+    printf("   %s\n", missoes[missaoEscolhida].descricao);
+
+    int opcao;
+    do {
+        printf("\nO que deseja fazer?\n1 - Atacar\n2 - Verificar missão\n3 - Sair\nEscolha: ");
+        scanf("%d", &opcao);
+        while (getchar() != '\n');
+
+        if (opcao == 1) {
+            int iAtacante, iDefensor;
+            EmprestimoTemporario emprestimo = { -1, -1, 0, 0 };
+
+            printf("\nEscolha o número do território atacante 🗡️: ");
+            scanf("%d", &iAtacante);
+            printf("Escolha o número do território defensor 🛡️: ");
+            scanf("%d", &iDefensor);
+            while (getchar() != '\n');
+
+            if (iAtacante < 1 || iAtacante > qtd || iDefensor < 1 || iDefensor > qtd) {
+                printf("⚠️ Índices inválidos!\n");
+                continue;
+            }
+
+            if (mapa[iAtacante - 1].tropas <= 1) {
+                printf("⚠️ Tropas insuficientes para atacar. Tentando empréstimo...\n");
+                emprestimo = emprestarTropas(mapa, qtd, mapa[iAtacante - 1].cor);
+            }
+
+            int venceu = atacar(&mapa[iAtacante - 1], &mapa[iDefensor - 1]);
+            resolverEmprestimo(mapa, &emprestimo, venceu);
+            exibirMapa(mapa, qtd);
+        }
+
+        else if (opcao == 2) {
+            if (verificarMissao(missaoEscolhida, mapa, qtd, corEscolhida)) {
+                printf("\n🏆 Missão concluída!\nDeseja encerrar o jogo?\n1 - Sim\n2 - Não\nEscolha: ");
+                int escolha;
+                scanf("%d", &escolha);
+                while (getchar() != '\n');
+                if (escolha == 1) break;
+            } else {
+                printf("\n📌 Missão ainda não concluída.\n");
+            }
+        }
+
+    } while (opcao != 3);
+
+    free(mapa);
+    printf("\nMemória liberada. Fim de Jogo!\n");
+    return 0;
+}
