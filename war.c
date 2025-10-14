@@ -55,16 +55,19 @@ void exibirMapa(Territorio* mapa, int qtd){
 // imula um ataque entre dois território
 // ==============================
 void atacar(Territorio* atacante, Territorio* defensor) {
+    // Verifica se não é ataque contra território próprio
     if (strcmp(atacante->cor, defensor->cor) == 0) {
         printf("\n⚠️  Você não pode atacar um território da sua própria cor!\n");
         return;
     }
 
+    // Verifica se o território atacante tem tropas suficientes
     if (atacante->tropas < 2) {
         printf("\n⚠️  O território atacante precisa ter pelo menos 2 tropas!\n");
         return;
     }
 
+    // Rolagem dos dados
     printf("\n🎲 Rolando os dados...\n");
     int dadoAtacante = rand() % 6 + 1;
     int dadoDefensor = rand() % 6 + 1;
@@ -72,21 +75,26 @@ void atacar(Territorio* atacante, Territorio* defensor) {
     printf("  Dado do atacante: %d\n", dadoAtacante);
     printf("  Dado do defensor: %d\n", dadoDefensor);
 
-    if (dadoAtacante > dadoDefensor) {
+    // Vitória do atacante ou empate (empates favorecem atacante)
+    if (dadoAtacante >= dadoDefensor) {
         printf("\n🔥 O atacante venceu a batalha!\n");
 
-        // Transferência de cor
-        strcpy(defensor->cor, atacante->cor);
-
-        // Calcula metade das tropas usadas no ataque
-        int tropasTransferidas = atacante->tropas / 2;
-
-        // Atualiza tropas nos territórios
-        defensor->tropas = tropasTransferidas;
-        atacante->tropas -= tropasTransferidas;
+        if (defensor->tropas == 1) {
+            // Última tropa do defensor: conquista total
+            printf("🏴‍☠️ Território conquistado!\n");
+            defensor->tropas = 1;            // Deixa 1 tropa do atacante no território conquistado
+            atacante->tropas -= 1;           // Remove tropa que foi para o novo território
+            strcpy(defensor->cor, atacante->cor); // Atualiza a cor do território conquistado
+        } else {
+            // Defensor ainda tem tropas: perde apenas 1 tropa
+            defensor->tropas -= 1;
+            printf("💥 O defensor perdeu 1 tropa! Tropas restantes: %d\n", defensor->tropas);
+        }
     } else {
+        // Defesa bem-sucedida
         printf("\n💪 O defensor resistiu ao ataque.\n");
-        atacante->tropas -= 1;
+        atacante->tropas -= 1;               // Atacante perde 1 tropa
+        printf("⚔️ O atacante perdeu 1 tropa. Tropas restantes: %d\n", atacante->tropas);
     }
 }
 
