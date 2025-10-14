@@ -120,3 +120,42 @@ void resolverEmprestimo(Territorio* mapa, EmprestimoTemporario* emp, int atacant
 
     emp->ativo = 0;
 }
+
+// ==============================
+// Função: atacar
+// Simula uma batalha entre dois territórios.
+// ==============================
+int atacar(Territorio* atacante, Territorio* defensor) {
+    if (strcmp(atacante->cor, defensor->cor) == 0) {
+        printf("⚠️ Não é permitido atacar território da mesma cor!\n");
+        return 0;
+    }
+
+    if (atacante->tropas <= 1) {
+        printf("⚠️ O território atacante não tem tropas suficientes para atacar!\n");
+        return 0;
+    }
+
+    printf("\n💥 Batalha entre %s (%s) e %s (%s)\n", atacante->nome, atacante->cor, defensor->nome, defensor->cor);
+    int dadoAtacante = rand() % 6 + 1;
+    int dadoDefensor = rand() % 6 + 1;
+
+    printf("🎲 Dado Atacante: %d | 🎲 Dado Defensor: %d\n", dadoAtacante, dadoDefensor);
+
+    if (dadoAtacante >= dadoDefensor) {
+        defensor->tropas--;
+        if (defensor->tropas <= 0) {
+            printf("🏴‍☠️ %s conquistou %s!\n", atacante->nome, defensor->nome);
+            strcpy(defensor->cor, atacante->cor);
+            defensor->tropas = 1;
+            return 1;
+        } else {
+            printf("O defensor resistiu! Tropas restantes em %s: %d\n", defensor->nome, defensor->tropas);
+            return 1;
+        }
+    } else {
+        atacante->tropas--;
+        printf("O ataque falhou! Tropas restantes em %s: %d\n", atacante->nome, atacante->tropas);
+        return 0;
+    }
+}
